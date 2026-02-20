@@ -11,7 +11,7 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   limit: 100,
 });
-
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
 app.use(limiter);
 app.use(express.json());
