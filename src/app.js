@@ -16,10 +16,9 @@ app.use(morgan("tiny"));
 app.use(limiter);
 app.use(express.json());
 app.use(helmet());
-app.get("/test-users", async (req, res) => {
-  const users = await userService.getAllUsers();
-  res.json(users);
-});
+app.get("/", (req, res) => {
+  res.send(`This a wallet service, please use the exposed endpoints to proceed.`);
+})
 app.use("/wallet", walletRouter);
 app.use("/user", userRouter);
 app.use(errorHandler);

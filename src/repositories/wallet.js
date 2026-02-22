@@ -50,9 +50,22 @@ const insertLedgerEntry = async (client,
     );
 }
 
-const updateWalletBalance = async (client, walletId, amountDelta) => {
+const updateWalletBalance = async (client, walletId, changeAmount) => {
     await client.query(`UPDATE wallets SET balance = balance + $1 WHERE id = $2`, [changeAmount, walletId]);
 }
 
+export const insertIdempotencyKey = async (
+    client,
+    key
+) => {
+    return client.query(
+        `INSERT INTO idempotency_keys (idempotency_key)
+     VALUES ($1)
+     ON CONFLICT (idempotency_key)
+     DO NOTHING
+     RETURNING id`,
+        [key]
+    );
+};
 
-export default { findWalletById, updateWalletBalance, insertLedgerEntry, insertTransaction, lockWalletByUserId, getTransactionsByUserId, findSystemWallet };
+export default {insertIdempotencyKey, findWalletById, updateWalletBalance, insertLedgerEntry, insertTransaction, lockWalletByUserId, getTransactionsByUserId, findSystemWallet };

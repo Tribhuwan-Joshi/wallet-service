@@ -10,6 +10,7 @@ const getWallet = async (req, res, next) => {
 
   try {
     const walletInfo = await walletService.getWallet(userId);
+    console.log("wallet info is ", walletInfo);
     res.status(200).json(walletInfo);
   } catch (error) {
     next(error);
@@ -31,7 +32,7 @@ const createTransaction = async (req, res, next) => {
     const userId = req.params.id;
     const parseRes = createTransactionSchema.safeParse(req.body);
     const parseKey = idempotencySchema.safeParse(
-      req.headers["idempotency-key"],
+      req.headers["idempotency-key"]
     );
     if (!parseRes.success) {
       throw new AppError(parseRes.error.message, 400);

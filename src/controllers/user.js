@@ -5,12 +5,22 @@ import { createUserSchema } from "../validators/user.schema.js";
 const getUser = async (req, res, next) => {
   const id = req.params.id;
   try {
-    const user = userService.getUser(id);
+    const user = await userService.getUser(id);
     res.status(200).json(user);
   } catch (error) {
     next(error);
   }
 };
+
+// just for your demo bhaskar, getallusers is not for prod
+const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await userService.getAllUsers();
+    res.status(200).json({ users });
+  } catch (error) {
+    next(error);
+  }
+}
 
 const createUser = async (req, res, next) => {
   try {
@@ -19,11 +29,10 @@ const createUser = async (req, res, next) => {
       throw new AppError("Provide valid email address", 400);
     }
     const { email } = parseRes.data;
-    const user = userService.createUser(email);
+    const user = await userService.createUser(email);
     res.status(201).json(user);
   } catch (error) {
     next(error);
   }
 };
-
-export { getUser, createUser };
+export { getUser, createUser, getAllUsers };
