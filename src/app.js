@@ -17,8 +17,24 @@ app.use(limiter);
 app.use(express.json());
 app.use(helmet());
 app.get("/", (req, res) => {
-  res.send(`This a wallet service, please use the exposed endpoints to proceed.`);
-})
+  res.status(200).send(`
+    <html>
+      <head>
+        <title>Wallet Service</title>
+      </head>
+      <body>
+        <h2>Wallet Service</h2>
+        <p>This is a wallet service. Please use the exposed endpoints to proceed.</p>
+        <p>
+          Docs:
+          <a href="https://github.com/Tribhuwan-Joshi/wallet-service" target="_blank">
+            GitHub Repository
+          </a>
+        </p>
+      </body>
+    </html>
+  `);
+});
 app.use("/wallet", walletRouter);
 app.use("/user", userRouter);
 app.use(errorHandler);

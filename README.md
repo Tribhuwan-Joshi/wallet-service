@@ -43,7 +43,7 @@ One user represents one account holder.
 - created_at
 
 Each user has exactly one wallet.  
-There is one SYSTEM wallet.
+There is one SYSTEM wallet by default that I have created for demo, system wallet balance can go negative.
 
 Relationship:
 
@@ -217,6 +217,7 @@ curl http://localhost:5000/api/wallet/1
 ```
 
 - get wallet info for userId 1
+- It will show wallet_type, balance and other info.
 
 ---
 
@@ -266,5 +267,6 @@ docker compose down -v
 docker compose up --build
 ```
 
-This removes DB volume and recreates schema.
-I haven't hosted it cuz verfication and inspecting the DB would be hard in that case.
+This removes DB volume and recreates schema. \
+I haven't hosted it cuz verfication and inspecting the DB would be hard in that case. \
+This system is not bugproof  and fully compelete but it summarize the idea that was given to build.
