@@ -1,6 +1,6 @@
-import userService from "../services/user";
-import AppError from "../utils/AppError";
-import { createUserSchema } from "../validators/user.schema";
+import * as userService from "../services/user.js";
+import AppError from "../utils/AppError.js";
+import { createUserSchema } from "../validators/user.schema.js";
 
 const getUser = async (req, res, next) => {
   const id = req.params.id;
@@ -26,4 +26,4 @@ const createUser = async (req, res, next) => {
   }
 };
 
-export default { getUser, createUser };
+export { getUser, createUser };

@@ -5,7 +5,7 @@ import walletRouter from "./routes/wallet.js";
 import userRouter from "./routes/user.js";
 import morgan from "morgan";
 import errorHandler from "./middlewares/errorHandler.js";
-
+import * as userService from "./services/user.js";
 const app = express();
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -16,7 +16,10 @@ app.use(morgan("tiny"));
 app.use(limiter);
 app.use(express.json());
 app.use(helmet());
-
+app.get("/test-users", async (req, res) => {
+  const users = await userService.getAllUsers();
+  res.json(users);
+});
 app.use("/wallet", walletRouter);
 app.use("/user", userRouter);
 app.use(errorHandler);

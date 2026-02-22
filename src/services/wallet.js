@@ -1,10 +1,11 @@
-import AppError from "../utils/AppError";
+import AppError from "../utils/AppError.js";
+import walletRepo from "../repositories/wallet.js";
 
 const getWallet = async (userId) => {
   if (!userId) {
     throw new AppError("UserId is required", 400);
   }
-  const walletInfo = await dbService.getWallet(userId);
+  const walletInfo = await walletRepo.findWalletById(userId);
   return walletInfo;
 };
 const getTransactions = async (userId) => {
