@@ -19,8 +19,10 @@ const getWallet = async (req, res, next) => {
 
 const getTransactions = async (req, res, next) => {
   const userId = req.params.id;
+  const page = req.query.page;
+  const limit = req.query.limit;
   try {
-    const transactions = await walletService.getTransactions(userId);
+    const transactions = await walletService.getTransactions(userId,page,limit);
     res.status(200).json(transactions);
   } catch (error) {
     next(error);
