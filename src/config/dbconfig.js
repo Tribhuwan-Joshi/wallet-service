@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import config from "./baseconfig.js";
-console.log("config ", config);
+// console.log("config ", config);
 const pool = new Pool({
   connectionString: config.db_url,
   ssl: process.env.NODE_ENV === "production" ? {

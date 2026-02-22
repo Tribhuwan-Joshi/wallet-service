@@ -142,6 +142,7 @@ This guarantees no user exists without a wallet.
 ## Prerequisite
 
 - Docker installed
+- git clone git@github.com:Tribhuwan-Joshi/wallet-service.git
 
 ---
 
@@ -150,7 +151,6 @@ This guarantees no user exists without a wallet.
 From project root:
 
 ```bash
-docker compose down -v
 docker compose up --build
 ```
 
@@ -188,18 +188,15 @@ SYSTEM wallet should exist.
 
 # API Testing
 
-I am assuming API gateway already prefixes routes with `/api`.
-
 Base route:
-
-http://localhost:5000/api
+http://localhost:5000/
 
 ---
 
 ## 1. Create User
 
 ```bash
-curl -X POST http://localhost:5000/api/users \
+curl -X POST http://localhost:5000/user \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
 ```
@@ -207,17 +204,17 @@ curl -X POST http://localhost:5000/api/users \
 This creates:
 - user
 - wallet automatically
-
+  
+response - User object with wallet info.
 ---
 
 ## 2. Get Wallet
 
 ```bash
-curl http://localhost:5000/api/wallet/1
+curl http://localhost:5000/wallet/1
 ```
-
 - get wallet info for userId 1
-- It will show wallet_type, balance and other info.
+- It will show wallet_type, balance and userid.
 
 ---
 
@@ -236,11 +233,13 @@ For testing, here are some UUIDv4 values:
 Example request:
 
 ```bash
-curl -X POST http://localhost:5000/api/wallet/transactions/1 \
+curl -X POST http://localhost:5000/wallet/transactions/1 \
   -H "Content-Type: application/json" \
   -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000" \
   -d '{"type":"Credit","amount":100}'
 ```
+
+- Endpoint means - do transaction for user Id 1
 - You can give type of - Credit, Debit, Topup and Bonus
 If you send the same idempotency key again:
 
@@ -252,11 +251,18 @@ If you send the same idempotency key again:
 ## 4. Get Transactions for userId 1
 
 ```bash
-curl http://localhost:5000/api/wallet/transactions/1?page=1&limit=10
+curl http://localhost:5000/wallet/transactions/1?page=1&limit=10
 ```
 - queries are optional, I am taking them as page = 1, limit = 10 by default
 
 ---
+
+## 5. Ledger Entries
+- Ledger entries are for internal audit, they are not exposed as endpoint, but you can inspect the DB directly to check/verfiy balance for a specific user
+
+Steps:
+1. Enter into psql - `docker exec -it wallet-db psql -U postgres -d walletdb`
+2. Check if balance is equal to the transaction money amount sum for user.
 
 # Reset Everything
 
