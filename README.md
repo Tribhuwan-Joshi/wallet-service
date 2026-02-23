@@ -275,4 +275,4 @@ docker compose up --build
 
 This removes DB volume and recreates schema. \
 I haven't hosted it cuz verfication and inspecting the DB would be hard in that case. \
-This system is not bugproof  and fully compelete but it summarize the idea that was given to build.
+This system is not production level microservice  but it summarize the idea that was provided.
